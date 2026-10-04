@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const registerUser = async (userData) => {
   const response = await fetch(`${API_URL}/auth/register`, {
