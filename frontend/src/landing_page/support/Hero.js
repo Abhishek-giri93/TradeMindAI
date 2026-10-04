@@ -24,7 +24,6 @@ function Hero() {
         ========================================= */}
 
         <div className="support-topbar">
-
           <div className="support-brand">
             <div className="support-brand-icon">
               <i className="fa-solid fa-headset"></i>
@@ -43,9 +42,7 @@ function Hero() {
             <span>Track tickets</span>
             <i className="fa-solid fa-arrow-right"></i>
           </a>
-
         </div>
-
 
         {/* =========================================
             MAIN CONTENT
@@ -58,7 +55,6 @@ function Hero() {
           ========================================= */}
 
           <div className="col-12 col-md-7">
-
             <div className="support-main-content">
 
               <div className="support-eyebrow">
@@ -75,7 +71,6 @@ function Hero() {
                 find information about your account, trading, funds, and
                 TradeMind AI products.
               </p>
-
 
               {/* Search */}
               <div className="support-search-wrapper">
@@ -104,7 +99,6 @@ function Hero() {
 
               </div>
 
-
               {/* Search Status */}
               {searchQuery && (
                 <div className="support-search-status">
@@ -112,7 +106,6 @@ function Hero() {
                   <strong>"{searchQuery}"</strong>
                 </div>
               )}
-
 
               {/* Quick Topics */}
               <div className="support-quick-section">
@@ -124,25 +117,23 @@ function Hero() {
                 <div className="support-topic-list">
 
                   {quickTopics.map((topic, index) => (
-                    <a
-                      href="#"
+                    <button
+                      type="button"
                       key={index}
                       className="support-topic-link"
+                      onClick={() => setSearchQuery(topic)}
                     >
                       {topic}
 
                       <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    </button>
                   ))}
 
                 </div>
-
               </div>
 
             </div>
-
           </div>
-
 
           {/* =========================================
               RIGHT COLUMN
@@ -165,16 +156,15 @@ function Hero() {
 
               </div>
 
-
               <div className="featured-list">
 
                 {featuredTopics.map((topic, index) => (
-                  <a
-                    href="#"
+                  <button
+                    type="button"
                     key={index}
                     className="featured-item"
+                    onClick={() => setSearchQuery(topic)}
                   >
-
                     <span className="featured-number">
                       {String(index + 1).padStart(2, "0")}
                     </span>
@@ -184,12 +174,10 @@ function Hero() {
                     </span>
 
                     <i className="fa-solid fa-arrow-right featured-arrow"></i>
-
-                  </a>
+                  </button>
                 ))}
 
               </div>
-
 
               {/* Support Status */}
               <div className="support-status">
@@ -203,13 +191,10 @@ function Hero() {
               </div>
 
             </div>
-
           </div>
 
         </div>
-
       </div>
-
 
       <style>{`
 
@@ -285,7 +270,6 @@ function Hero() {
           z-index: 2;
         }
 
-
         /* =========================================
            TOP BAR
         ========================================= */
@@ -359,7 +343,6 @@ function Hero() {
           font-size: 11px;
         }
 
-
         /* =========================================
            TICKET LINK
         ========================================= */
@@ -404,7 +387,6 @@ function Hero() {
           transform:
             translateX(4px);
         }
-
 
         /* =========================================
            MAIN CONTENT
@@ -474,7 +456,6 @@ function Hero() {
 
           line-height: 1.7;
         }
-
 
         /* =========================================
            SEARCH
@@ -582,7 +563,6 @@ function Hero() {
           font-size: 11px;
         }
 
-
         /* =========================================
            QUICK TOPICS
         ========================================= */
@@ -636,9 +616,11 @@ function Hero() {
 
           color: #ffffff;
 
-          text-decoration: none;
+          font-family: inherit;
 
           font-size: 12px;
+
+          cursor: pointer;
 
           transition:
             background 0.3s ease,
@@ -659,12 +641,19 @@ function Hero() {
             translateY(-2px);
         }
 
+        .support-topic-link:focus-visible {
+          outline:
+            2px solid
+            rgba(255,255,255,0.75);
+
+          outline-offset: 2px;
+        }
+
         .support-topic-link i {
           font-size: 8px;
 
           opacity: 0.7;
         }
-
 
         /* =========================================
            FEATURED CARD
@@ -701,7 +690,6 @@ function Hero() {
           background:
             rgba(255,255,255,0.11);
         }
-
 
         /* =========================================
            FEATURED HEADER
@@ -752,7 +740,6 @@ function Hero() {
           font-size: 10px;
         }
 
-
         /* =========================================
            FEATURED ITEMS
         ========================================= */
@@ -773,15 +760,25 @@ function Hero() {
 
           gap: 10px;
 
+          width: 100%;
+
           padding: 15px 0;
+
+          border: none;
 
           border-top:
             1px solid
             rgba(255,255,255,0.10);
 
+          background: transparent;
+
           color: #ffffff;
 
-          text-decoration: none;
+          font-family: inherit;
+
+          text-align: left;
+
+          cursor: pointer;
 
           transition:
             padding 0.3s ease;
@@ -791,6 +788,16 @@ function Hero() {
           color: #ffffff;
 
           padding-left: 5px;
+        }
+
+        .featured-item:focus-visible {
+          outline:
+            2px solid
+            rgba(255,255,255,0.70);
+
+          outline-offset: 2px;
+
+          border-radius: 5px;
         }
 
         .featured-number {
@@ -825,7 +832,6 @@ function Hero() {
           transform:
             translateX(4px);
         }
-
 
         /* =========================================
            SUPPORT STATUS
@@ -868,33 +874,30 @@ function Hero() {
             2s ease-in-out infinite;
         }
 
-
         /* =========================================
            ANIMATION
         ========================================= */
 
         @keyframes supportStatusPulse {
-
           0%,
           100% {
             opacity: 1;
+
             transform: scale(1);
           }
 
           50% {
             opacity: 0.55;
+
             transform: scale(1.15);
           }
-
         }
-
 
         /* =========================================
            TABLET
         ========================================= */
 
         @media (max-width: 991px) {
-
           .support-main-content {
             padding-right: 0;
           }
@@ -902,16 +905,13 @@ function Hero() {
           .support-featured-card {
             padding: 22px;
           }
-
         }
-
 
         /* =========================================
            MOBILE
         ========================================= */
 
         @media (max-width: 767px) {
-
           .trademind-support-hero .container {
             padding-left: 20px;
             padding-right: 20px;
@@ -946,16 +946,13 @@ function Hero() {
           .support-featured-card {
             margin-top: 5px;
           }
-
         }
-
 
         /* =========================================
            SMALL MOBILE
         ========================================= */
 
         @media (max-width: 480px) {
-
           .support-topbar {
             align-items: flex-start;
           }
@@ -980,16 +977,13 @@ function Hero() {
           .support-topic-link {
             font-size: 11px;
           }
-
         }
-
 
         /* =========================================
            REDUCED MOTION
         ========================================= */
 
         @media (prefers-reduced-motion: reduce) {
-
           .support-status .status-dot {
             animation: none;
           }
@@ -1003,7 +997,6 @@ function Hero() {
           .featured-arrow {
             transition: none;
           }
-
         }
 
       `}</style>

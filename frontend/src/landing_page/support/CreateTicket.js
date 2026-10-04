@@ -118,6 +118,7 @@ function CreateTicket() {
               <div className="support-topic-card">
 
                 {/* Category Header */}
+
                 <div className="support-topic-header">
 
                   <div className="support-topic-icon">
@@ -140,21 +141,24 @@ function CreateTicket() {
 
 
                 {/* Subtopics */}
+
                 <ul className="support-topic-list">
 
                   {topic.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
 
-                      <a
-                        href="#"
+                      <button
+                        type="button"
                         className="support-subtopic-link"
                       >
+
                         <span>
                           {link}
                         </span>
 
                         <i className="fa-solid fa-arrow-right"></i>
-                      </a>
+
+                      </button>
 
                     </li>
                   ))}
@@ -180,6 +184,7 @@ function CreateTicket() {
           </div>
 
           <div className="ticket-bottom-content">
+
             <h3>
               Can't find what you're looking for?
             </h3>
@@ -188,15 +193,16 @@ function CreateTicket() {
               Our support team can help you with account, trading,
               funds, portfolio, and TradeMind AI related questions.
             </p>
+
           </div>
 
-          <a
-            href="#create-ticket"
+          <button
+            type="button"
             className="ticket-create-button"
           >
             Create a ticket
             <i className="fa-solid fa-arrow-right"></i>
-          </a>
+          </button>
 
         </div>
 
@@ -210,14 +216,21 @@ function CreateTicket() {
         ========================================= */
 
         .trademind-create-ticket {
+
           width: 100%;
+
           background: #ffffff;
+
           overflow: hidden;
+
         }
 
         .trademind-create-ticket .container {
+
           position: relative;
+
           z-index: 2;
+
         }
 
 
@@ -226,15 +239,21 @@ function CreateTicket() {
         ========================================= */
 
         .ticket-section-header {
+
           max-width: 700px;
+
           margin: 0 auto 45px;
 
           text-align: center;
+
         }
 
         .ticket-header-badge {
+
           display: inline-flex;
+
           align-items: center;
+
           gap: 8px;
 
           margin-bottom: 12px;
@@ -242,13 +261,17 @@ function CreateTicket() {
           color: #387ed1;
 
           font-size: 11px;
+
           font-weight: 700;
 
           letter-spacing: 1.2px;
+
         }
 
         .ticket-header-badge span {
+
           width: 7px;
+
           height: 7px;
 
           border-radius: 50%;
@@ -258,9 +281,11 @@ function CreateTicket() {
           box-shadow:
             0 0 0 5px
             rgba(56, 126, 209, 0.08);
+
         }
 
         .ticket-section-header h2 {
+
           margin: 0 0 10px;
 
           color: #1f2937;
@@ -272,9 +297,11 @@ function CreateTicket() {
           font-weight: 600;
 
           letter-spacing: -0.8px;
+
         }
 
         .ticket-section-header p {
+
           max-width: 600px;
 
           margin: 0 auto;
@@ -284,6 +311,7 @@ function CreateTicket() {
           font-size: 15px;
 
           line-height: 1.7;
+
         }
 
 
@@ -292,6 +320,7 @@ function CreateTicket() {
         ========================================= */
 
         .support-topic-card {
+
           height: 100%;
 
           padding: 24px;
@@ -311,9 +340,11 @@ function CreateTicket() {
             transform 0.35s ease,
             box-shadow 0.35s ease,
             border-color 0.35s ease;
+
         }
 
         .support-topic-card:hover {
+
           transform:
             translateY(-6px);
 
@@ -323,6 +354,7 @@ function CreateTicket() {
           box-shadow:
             0 18px 40px
             rgba(31, 41, 55, 0.08);
+
         }
 
 
@@ -331,6 +363,7 @@ function CreateTicket() {
         ========================================= */
 
         .support-topic-header {
+
           display: flex;
 
           align-items: center;
@@ -343,16 +376,21 @@ function CreateTicket() {
 
           border-bottom:
             1px solid #f0f2f5;
+
         }
 
         .support-topic-icon {
+
           flex-shrink: 0;
 
           width: 46px;
+
           height: 46px;
 
           display: flex;
+
           align-items: center;
+
           justify-content: center;
 
           border-radius: 13px;
@@ -367,19 +405,23 @@ function CreateTicket() {
           transition:
             transform 0.35s ease,
             background 0.35s ease;
+
         }
 
         .support-topic-card:hover
         .support-topic-icon {
+
           transform:
             translateY(-3px)
             scale(1.05);
 
           background:
             rgba(56, 126, 209, 0.13);
+
         }
 
         .support-topic-header h3 {
+
           margin: 0 0 3px;
 
           color: #374151;
@@ -389,12 +431,15 @@ function CreateTicket() {
           line-height: 1.3;
 
           font-weight: 600;
+
         }
 
         .support-topic-header span {
+
           color: #9ca3af;
 
           font-size: 11px;
+
         }
 
 
@@ -403,47 +448,80 @@ function CreateTicket() {
         ========================================= */
 
         .support-topic-list {
+
           list-style: none;
 
           margin: 0;
+
           padding: 0;
+
         }
 
         .support-topic-list li {
+
           margin: 0;
+
         }
 
         .support-subtopic-link {
+
           display: flex;
 
           align-items: center;
 
           justify-content: space-between;
 
+          width: 100%;
+
           gap: 10px;
 
           padding: 9px 0;
 
+          margin: 0;
+
+          border: 0;
+
+          background: transparent;
+
           color: #6b7280;
 
-          text-decoration: none;
+          font-family: inherit;
 
           font-size: 13px;
 
           line-height: 1.5;
 
+          text-align: left;
+
+          cursor: pointer;
+
           transition:
             color 0.25s ease,
             padding 0.25s ease;
+
         }
 
         .support-subtopic-link:hover {
+
           color: #387ed1;
 
           padding-left: 4px;
+
+        }
+
+        .support-subtopic-link:focus-visible {
+
+          outline: 2px solid
+            rgba(56, 126, 209, 0.35);
+
+          outline-offset: 3px;
+
+          border-radius: 4px;
+
         }
 
         .support-subtopic-link i {
+
           flex-shrink: 0;
 
           color: #b0b7c3;
@@ -458,15 +536,18 @@ function CreateTicket() {
           transition:
             opacity 0.25s ease,
             transform 0.25s ease;
+
         }
 
         .support-subtopic-link:hover i {
+
           opacity: 1;
 
           transform:
             translateX(0);
 
           color: #387ed1;
+
         }
 
 
@@ -475,6 +556,7 @@ function CreateTicket() {
         ========================================= */
 
         .ticket-bottom-card {
+
           display: flex;
 
           align-items: center;
@@ -497,16 +579,21 @@ function CreateTicket() {
               rgba(56, 126, 209, 0.06),
               rgba(56, 126, 209, 0.025)
             );
+
         }
 
         .ticket-bottom-icon {
+
           flex-shrink: 0;
 
           width: 48px;
+
           height: 48px;
 
           display: flex;
+
           align-items: center;
+
           justify-content: center;
 
           border-radius: 13px;
@@ -517,13 +604,17 @@ function CreateTicket() {
           color: #387ed1;
 
           font-size: 18px;
+
         }
 
         .ticket-bottom-content {
+
           flex: 1;
+
         }
 
         .ticket-bottom-content h3 {
+
           margin: 0 0 4px;
 
           color: #374151;
@@ -531,9 +622,11 @@ function CreateTicket() {
           font-size: 15px;
 
           font-weight: 600;
+
         }
 
         .ticket-bottom-content p {
+
           margin: 0;
 
           color: #6b7280;
@@ -541,6 +634,7 @@ function CreateTicket() {
           font-size: 12px;
 
           line-height: 1.55;
+
         }
 
 
@@ -549,6 +643,7 @@ function CreateTicket() {
         ========================================= */
 
         .ticket-create-button {
+
           flex-shrink: 0;
 
           display: inline-flex;
@@ -559,17 +654,21 @@ function CreateTicket() {
 
           padding: 10px 16px;
 
+          border: 0;
+
           border-radius: 9px;
 
           background: #387ed1;
 
           color: #ffffff;
 
-          text-decoration: none;
+          font-family: inherit;
 
           font-size: 13px;
 
           font-weight: 600;
+
+          cursor: pointer;
 
           box-shadow:
             0 7px 18px
@@ -579,9 +678,11 @@ function CreateTicket() {
             transform 0.3s ease,
             background 0.3s ease,
             box-shadow 0.3s ease;
+
         }
 
         .ticket-create-button:hover {
+
           color: #ffffff;
 
           background: #2868b3;
@@ -592,18 +693,32 @@ function CreateTicket() {
           box-shadow:
             0 11px 25px
             rgba(56, 126, 209, 0.25);
+
+        }
+
+        .ticket-create-button:focus-visible {
+
+          outline: 2px solid
+            rgba(56, 126, 209, 0.4);
+
+          outline-offset: 3px;
+
         }
 
         .ticket-create-button i {
+
           font-size: 10px;
 
           transition:
             transform 0.3s ease;
+
         }
 
         .ticket-create-button:hover i {
+
           transform:
             translateX(4px);
+
         }
 
 
@@ -614,11 +729,15 @@ function CreateTicket() {
         @media (max-width: 991px) {
 
           .support-topic-card {
+
             padding: 22px;
+
           }
 
           .ticket-bottom-card {
+
             align-items: flex-start;
+
           }
 
         }
@@ -631,30 +750,41 @@ function CreateTicket() {
         @media (max-width: 767px) {
 
           .trademind-create-ticket .container {
+
             padding-left: 18px;
+
             padding-right: 18px;
+
           }
 
           .ticket-section-header {
+
             margin-bottom: 30px;
+
           }
 
           .support-topic-card {
+
             padding: 21px;
+
           }
 
           .ticket-bottom-card {
+
             flex-direction: column;
 
             align-items: flex-start;
 
             padding: 20px;
+
           }
 
           .ticket-create-button {
+
             width: 100%;
 
             justify-content: center;
+
           }
 
         }
@@ -667,19 +797,27 @@ function CreateTicket() {
         @media (max-width: 480px) {
 
           .ticket-section-header h2 {
+
             font-size: 28px;
+
           }
 
           .ticket-section-header p {
+
             font-size: 13px;
+
           }
 
           .support-topic-header h3 {
+
             font-size: 15px;
+
           }
 
           .support-subtopic-link {
+
             font-size: 12px;
+
           }
 
         }
@@ -697,12 +835,15 @@ function CreateTicket() {
           .support-subtopic-link i,
           .ticket-create-button,
           .ticket-create-button i {
+
             transition: none;
+
           }
 
         }
 
       `}</style>
+
     </section>
   );
 }

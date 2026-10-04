@@ -3,11 +3,9 @@ import React from "react";
 function Team() {
   return (
     <section className="container my-5 py-md-5 trademind-team-section">
-
       {/* Section Header */}
       <div className="row text-center mb-5">
         <div className="col-12">
-
           <span className="trademind-team-eyebrow">
             The people behind TradeMind AI
           </span>
@@ -20,31 +18,25 @@ function Team() {
             Building technology that makes market intelligence simpler,
             smarter, and more accessible.
           </p>
-
         </div>
       </div>
 
       {/* Team Profile Section */}
       <div className="row justify-content-center align-items-center gy-5 gx-lg-5">
-
         {/* Left Column: Team Visual */}
         <div className="col-12 col-md-5 text-center">
-
           <div className="trademind-team-profile">
-
             {/* Decorative rings */}
             <div className="team-ring team-ring--one" />
             <div className="team-ring team-ring--two" />
 
             {/* Profile visual */}
             <div className="trademind-team-avatar">
-
               <div className="team-avatar-glow" />
 
               <div className="team-avatar-content">
                 <i className="fa-solid fa-users" />
               </div>
-
             </div>
 
             <h3 className="trademind-team-name">
@@ -59,16 +51,12 @@ function Team() {
               <span />
               Building the future of trading
             </div>
-
           </div>
-
         </div>
 
         {/* Right Column: Team Description */}
         <div className="col-12 col-md-6 col-lg-5">
-
           <div className="trademind-team-bio">
-
             <div className="team-bio-label">
               <i className="fa-solid fa-quote-left" />
               Our philosophy
@@ -96,7 +84,6 @@ function Team() {
 
             {/* Values */}
             <div className="trademind-team-values">
-
               <div className="team-value">
                 <div className="team-value-icon">
                   <i className="fa-solid fa-lightbulb" />
@@ -135,62 +122,53 @@ function Team() {
                   </span>
                 </div>
               </div>
-
             </div>
 
             {/* Connect */}
             <div className="trademind-team-connect">
-
               <span>
                 Connect with TradeMind AI
               </span>
 
               <div className="team-social-links">
-
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="TradeMind AI Homepage"
                   title="Homepage"
                 >
                   <i className="fa-solid fa-globe" />
-                </a>
+                </button>
 
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="TradeMind AI LinkedIn"
                   title="LinkedIn"
                 >
                   <i className="fa-brands fa-linkedin-in" />
-                </a>
+                </button>
 
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="TradeMind AI X"
                   title="X"
                 >
                   <i className="fa-brands fa-x-twitter" />
-                </a>
+                </button>
 
-                <a
-                  href="#"
+                <button
+                  type="button"
                   aria-label="TradeMind AI GitHub"
                   title="GitHub"
                 >
                   <i className="fa-brands fa-github" />
-                </a>
-
+                </button>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
 
       <style>{`
-
         /* =========================================
            SECTION
         ========================================= */
@@ -216,7 +194,7 @@ function Team() {
           background:
             radial-gradient(
               circle,
-              rgba(67,97,238,0.06),
+              rgba(67, 97, 238, 0.06),
               transparent 70%
             );
 
@@ -274,9 +252,7 @@ function Team() {
         .trademind-team-subtitle {
           max-width: 620px;
 
-          margin:
-            0
-            auto;
+          margin: 0 auto;
 
           color: #64748b;
 
@@ -334,7 +310,7 @@ function Team() {
 
           box-shadow:
             0 25px 55px
-            rgba(15,23,42,0.18);
+            rgba(15, 23, 42, 0.18);
 
           overflow: hidden;
 
@@ -353,7 +329,7 @@ function Team() {
 
           border:
             1px solid
-            rgba(129,140,248,0.3);
+            rgba(129, 140, 248, 0.3);
 
           border-radius: 50%;
         }
@@ -368,7 +344,7 @@ function Team() {
 
           border:
             1px dashed
-            rgba(165,180,252,0.25);
+            rgba(165, 180, 252, 0.25);
 
           border-radius: 50%;
 
@@ -390,7 +366,7 @@ function Team() {
           background:
             radial-gradient(
               circle,
-              rgba(99,102,241,0.4),
+              rgba(99, 102, 241, 0.4),
               transparent 70%
             );
 
@@ -410,12 +386,12 @@ function Team() {
 
           border:
             1px solid
-            rgba(165,180,252,0.25);
+            rgba(165, 180, 252, 0.25);
 
           border-radius: 25px;
 
           background:
-            rgba(99,102,241,0.12);
+            rgba(99, 102, 241, 0.12);
 
           color: #a5b4fc;
 
@@ -423,7 +399,7 @@ function Team() {
 
           box-shadow:
             0 0 40px
-            rgba(99,102,241,0.15);
+            rgba(99, 102, 241, 0.15);
         }
 
         .team-ring {
@@ -433,7 +409,7 @@ function Team() {
 
           border:
             1px solid
-            rgba(99,102,241,0.1);
+            rgba(99, 102, 241, 0.1);
 
           pointer-events: none;
         }
@@ -454,7 +430,7 @@ function Team() {
           height: 370px;
 
           border-color:
-            rgba(99,102,241,0.05);
+            rgba(99, 102, 241, 0.05);
 
           animation:
             teamRingPulse
@@ -494,12 +470,12 @@ function Team() {
 
           border:
             1px solid
-            rgba(34,197,94,0.12);
+            rgba(34, 197, 94, 0.12);
 
           border-radius: 999px;
 
           background:
-            rgba(34,197,94,0.05);
+            rgba(34, 197, 94, 0.05);
 
           color: #64748b;
 
@@ -516,7 +492,7 @@ function Team() {
 
           box-shadow:
             0 0 0 4px
-            rgba(34,197,94,0.08);
+            rgba(34, 197, 94, 0.08);
 
           animation:
             teamLivePulse
@@ -592,7 +568,7 @@ function Team() {
 
           border:
             1px solid
-            rgba(15,23,42,0.06);
+            rgba(15, 23, 42, 0.06);
 
           border-radius: 12px;
 
@@ -609,11 +585,11 @@ function Team() {
             translateY(-4px);
 
           border-color:
-            rgba(67,97,238,0.16);
+            rgba(67, 97, 238, 0.16);
 
           box-shadow:
             0 12px 25px
-            rgba(15,23,42,0.06);
+            rgba(15, 23, 42, 0.06);
         }
 
         .team-value-icon {
@@ -683,13 +659,15 @@ function Team() {
           gap: 7px;
         }
 
-        .team-social-links a {
+        .team-social-links button {
           width: 32px;
           height: 32px;
 
           display: flex;
           align-items: center;
           justify-content: center;
+
+          padding: 0;
 
           border:
             1px solid
@@ -701,7 +679,10 @@ function Team() {
 
           color: #64748b;
 
-          text-decoration: none;
+          font-family: inherit;
+          font-size: inherit;
+
+          cursor: pointer;
 
           transition:
             transform 0.25s ease,
@@ -710,16 +691,24 @@ function Team() {
             border-color 0.25s ease;
         }
 
-        .team-social-links a:hover {
+        .team-social-links button:hover {
           transform:
             translateY(-3px);
 
           background: #eef2ff;
 
           border-color:
-            rgba(67,97,238,0.18);
+            rgba(67, 97, 238, 0.18);
 
           color: #4361ee;
+        }
+
+        .team-social-links button:focus-visible {
+          outline:
+            2px solid
+            rgba(67, 97, 238, 0.45);
+
+          outline-offset: 3px;
         }
 
         /* =========================================
@@ -893,11 +882,10 @@ function Team() {
           }
 
           .team-value,
-          .team-social-links a {
+          .team-social-links button {
             transition: none;
           }
         }
-
       `}</style>
     </section>
   );
