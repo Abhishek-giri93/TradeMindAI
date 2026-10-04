@@ -113,6 +113,12 @@ const holdingsRoutes =
 const marketRoutes =
   require("./routes/market");
 
+  app.get("/", (req, res) => {
+    res.json({
+      status: "success",
+      message: "TradeMind AI API is running",
+    });
+  });
 
 // ==================================================
 // ROUTE MOUNTING
