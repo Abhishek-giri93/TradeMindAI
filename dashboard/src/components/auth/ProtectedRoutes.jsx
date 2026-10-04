@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCurrentUser } from "../../api/authApi";
 
@@ -28,9 +28,11 @@ function ProtectedRoutes() {
     return <div>Checking authentication...</div>;
   }
 
-  // If user is not authenticated, redirect to login page
+  // If user is not authenticated,
+  // redirect to Frontend login page
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
+    return null;
   }
 
   // If authenticated, allow access to protected routes

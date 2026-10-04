@@ -1,11 +1,10 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { getCurrentUser, logoutUser } from "../../api/authApi";
 
 function ProfileMenu() {
   const [user, setUser] = useState();
-  const navigate = useNavigate();
 
   // ==========================================
   // FETCH CURRENT USER
@@ -32,8 +31,8 @@ function ProfileMenu() {
     try {
       await logoutUser();
 
-      // Redirect to login page
-      navigate("/login", { replace: true });
+      // Redirect to Frontend login page
+      window.location.href = `${import.meta.env.VITE_FRONTEND_URL}/login`;
     } catch (err) {
       console.log("Logout failed:", err);
     }
