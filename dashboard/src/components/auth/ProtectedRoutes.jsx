@@ -1,39 +1,40 @@
-import { Navigate , Outlet } from "react-router-dom";
-import { useState , useEffect} from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { getCurrentUser } from "../../api/authApi";
 
-function ProtectedRoutes(){
+function ProtectedRoutes() {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(()=>{
-    const checkAuth = async ()=>{
-      try{
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
         await getCurrentUser();
         setIsAuthenticated(true);
-      }
-      catch(error){
-        console.log("Authentication check failed :", error);
+      } catch (error) {
+        console.log("Authentication check failed:", error);
         setIsAuthenticated(false);
-      }
-      finally{
+      } finally {
         setLoading(false);
       }
-    } 
-    // calling checkAuth-
+    };
+
+    // Check user authentication
     checkAuth();
-  }, [])
+  }, []);
 
-  if(loading){
-    return <div>Checking authentication...</div>
+  // While authentication is being checked
+  if (loading) {
+    return <div>Checking authentication...</div>;
   }
 
-  if(!isAuthenticated){
-    window.location.href="http://localhost:3001/login";
-    return null;
+  // If user is not authenticated, redirect to login page
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
-  return <Outlet />
 
+  // If authenticated, allow access to protected routes
+  return <Outlet />;
 }
 
 export default ProtectedRoutes;

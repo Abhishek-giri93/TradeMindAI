@@ -1,44 +1,48 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { getCurrentUser, logoutUser } from "../../api/authApi";
 
 function ProfileMenu() {
-
-  // const [user] = useState(()=>{       //callback to fetch the user data-
-  //   const savedUser = localStorage.getItem("user");
-
-  //   return savedUser ? JSON.parse(savedUser) : null;
-  // })
-  // console.log(user);
   const [user, setUser] = useState();
-  // useEffect-
-  useEffect(()=>{
-    const fetchUser = async ()=>{
-      try{
-        const data =await getCurrentUser();
+  const navigate = useNavigate();
+
+  // ==========================================
+  // FETCH CURRENT USER
+  // ==========================================
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await getCurrentUser();
         setUser(data);
-      }
-      catch(err){
+      } catch (err) {
         console.log("Failed to fetch current user:", err);
       }
-    }
+    };
+
     fetchUser();
-  }, [])
-  // Handling the logout-
-  const handleLogout = async()=>{
-    try{
+  }, []);
+
+  // ==========================================
+  // HANDLE LOGOUT
+  // ==========================================
+
+  const handleLogout = async () => {
+    try {
       await logoutUser();
-      window.location.href = "http://localhost:3001/login"
+
+      // Redirect to login page
+      navigate("/login", { replace: true });
+    } catch (err) {
+      console.log("Logout failed:", err);
     }
-    catch(err){
-      console.log("Logout failed : ", err);
-    }
-  }
+  };
 
   return (
     <div className="dropdown">
 
+      {/* Profile Button */}
       <button
         type="button"
         className="btn btn-light rounded-circle p-2"
