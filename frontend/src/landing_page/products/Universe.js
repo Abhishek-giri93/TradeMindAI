@@ -79,67 +79,53 @@ function Universe() {
         ========================================= */}
         <div className="row gy-4 gx-4 justify-content-center">
 
-          {ecosystem.map((item, index) => (
-            <div
-              key={index}
-              className="col-12 col-sm-6 col-lg-4"
-            >
-              <a
-                href="#"
-                className="universe-card-link"
-              >
+{ecosystem.map((item, index) => (
 
-                <div className="universe-card">
+  <div
+    key={index}
+    className="col-12 col-sm-6 col-lg-4"
+  >
 
-                  {/* Icon */}
-                  <div className="universe-icon">
-                    <i className={item.icon}></i>
-                  </div>
+    <article className="universe-card-link">
 
-                  {/* Content */}
-                  <div className="universe-card-content">
+      <div className="universe-card">
 
-                    <h3 className="universe-card-title">
-                      {item.title}
-                    </h3>
+        {/* Icon */}
+        <div className="universe-icon">
 
-                    <p className="universe-card-description">
-                      {item.desc}
-                    </p>
-
-                  </div>
-
-                  {/* Arrow */}
-                  <div className="universe-card-arrow">
-                    <i className="fa-solid fa-arrow-right"></i>
-                  </div>
-
-                </div>
-
-              </a>
-            </div>
-          ))}
+          <i className={item.icon}></i>
 
         </div>
 
+        {/* Content */}
+        <div className="universe-card-content">
 
-        {/* =========================================
-            CTA
-        ========================================= */}
-        <div className="row text-center mt-5 pt-3">
-          <div className="col-12">
+          <h3 className="universe-card-title">
+            {item.title}
+          </h3>
 
-            <a
-              href="/signup"
-              className="universe-cta"
-            >
-              <span>Get started with TradeMind AI</span>
+          <p className="universe-card-description">
+            {item.desc}
+          </p>
 
-              <i className="fa-solid fa-arrow-right"></i>
-            </a>
-
-          </div>
         </div>
+
+        {/* Arrow */}
+        <div className="universe-card-arrow">
+
+          <i className="fa-solid fa-arrow-right"></i>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+))}
+
+</div>
 
       </div>
 
@@ -248,52 +234,75 @@ function Universe() {
         ========================================= */
 
         .universe-card-link {
-          display: block;
 
-          height: 100%;
-
-          color: inherit;
-
-          text-decoration: none;
-        }
+        display: block;
+      
+        height: 100%;
+      
+        color: inherit;
+      
+        text-decoration: none;
+      
+        margin: 0;
+      
+        padding: 0;
+      
+        outline: none;
+      }
 
 
         /* =========================================
            CARD
         ========================================= */
+        .universe-card-link:hover .universe-card {
 
+        background:
+          linear-gradient(
+            145deg,
+            #ffffff,
+            #f7faff
+          );
+      }
+      
+      .universe-card-link:focus-visible .universe-card {
+      
+        outline: 3px solid rgba(56, 126, 209, 0.18);
+      
+        outline-offset: 4px;
+      }
         .universe-card {
-          position: relative;
 
-          height: 100%;
-
-          min-height: 235px;
-
-          padding: 28px 25px;
-
-          border:
-            1px solid #e5e7eb;
-
-          border-radius: 18px;
-
-          background:
-            linear-gradient(
-              145deg,
-              #ffffff,
-              #fafcff
-            );
-
-          box-shadow:
-            0 8px 25px
-            rgba(31, 41, 55, 0.04);
-
-          overflow: hidden;
-
-          transition:
-            transform 0.35s ease,
-            box-shadow 0.35s ease,
-            border-color 0.35s ease;
-        }
+        position: relative;
+      
+        height: 100%;
+      
+        min-height: 235px;
+      
+        padding: 28px 25px;
+      
+        border: 1px solid #e5e7eb;
+      
+        border-radius: 18px;
+      
+        background:
+          linear-gradient(
+            145deg,
+            #ffffff,
+            #fafcff
+          );
+      
+        box-shadow:
+          0 8px 25px
+          rgba(31, 41, 55, 0.04);
+      
+        overflow: hidden;
+      
+        transition:
+          transform 0.35s ease,
+          box-shadow 0.35s ease,
+          border-color 0.35s ease,
+          background 0.35s ease;
+      }
 
         .universe-card::before {
           content: "";
