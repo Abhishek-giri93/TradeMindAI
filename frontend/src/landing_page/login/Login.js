@@ -12,12 +12,20 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // ============================================================
+  // LOGIN HANDLER
+  // ============================================================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Clear previous error
     setError("");
 
-    if (!email || !password) {
+    // Basic validation
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail || !password) {
       setError("Email and password are required.");
       return;
     }
@@ -25,18 +33,64 @@ function Login() {
     setLoading(true);
 
     try {
+      // Remove any old token before starting a fresh login
+      localStorage.removeItem("token");
+
+      // --------------------------------------------------------
+      // LOGIN API
+      // --------------------------------------------------------
+
       const data = await loginUser({
-        email,
+        email: trimmedEmail,
         password,
       });
 
-      console.log("Login successfully.", data);
+      console.log("Login successful:", data);
 
-      // Redirect to homepage after successful login
-      window.location.href = "https://trade-mind-dashboard.vercel.app/";
-        } catch (error) {
-      console.error("Login error:", error.message);
-      setError(error.message || "Login failed. Please try again.");
+      // --------------------------------------------------------
+      // CHECK JWT TOKEN
+      // --------------------------------------------------------
+
+      if (!data?.token) {
+        console.error("Login response does not contain a token.");
+
+        throw new Error(
+          "Login successful, but authentication token was not received."
+        );
+      }
+
+      // --------------------------------------------------------
+      // SAVE JWT TOKEN
+      // --------------------------------------------------------
+
+      localStorage.setItem("token", data.token);
+
+      console.log("Authentication token saved successfully.");
+
+      // --------------------------------------------------------
+      // VERIFY TOKEN WAS SAVED
+      // --------------------------------------------------------
+
+      const savedToken = localStorage.getItem("token");
+
+      if (!savedToken) {
+        throw new Error(
+          "Authentication token could not be saved. Please try again."
+        );
+      }
+
+      // --------------------------------------------------------
+      // REDIRECT TO DASHBOARD
+      // --------------------------------------------------------
+
+      window.location.href =
+        "https://trade-mind-dashboard.vercel.app/";
+    } catch (error) {
+      console.error("Login error:", error);
+
+      setError(
+        error?.message || "Login failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -50,9 +104,9 @@ function Login() {
         <div className="container">
           <div className="row align-items-center justify-content-center trademind-login-row">
 
-            {/* =========================================
+            {/* =====================================================
                 LEFT SIDE - BRAND / VISUAL
-            ========================================= */}
+            ===================================================== */}
 
             <div className="col-lg-6 trademind-login-visual-col">
               <div className="trademind-login-visual">
@@ -220,9 +274,9 @@ function Login() {
               </div>
             </div>
 
-            {/* =========================================
+            {/* =====================================================
                 RIGHT SIDE - LOGIN FORM
-            ========================================= */}
+            ===================================================== */}
 
             <div className="col-lg-5 col-xl-4">
 
@@ -794,7 +848,6 @@ function Login() {
 
         .login-dashboard__stats small {
           color: #4ade80;
-
           font-size: 0.6rem;
         }
 
@@ -885,7 +938,6 @@ function Login() {
 
         .login-floating-card strong {
           color: #1e293b;
-
           font-size: 0.7rem;
         }
 
@@ -949,7 +1001,6 @@ function Login() {
           color: #0f172a;
 
           font-size: 1.35rem;
-
           letter-spacing: -0.02em;
         }
 
@@ -1031,7 +1082,7 @@ function Login() {
         }
 
         .trademind-login-error button:hover {
-          background: rgba(220,53,69,0.07);
+          background: rgba(220,69,69,0.07);
           color: #dc3545;
         }
 
