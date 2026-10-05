@@ -1,9 +1,38 @@
+// =====================================================
+// MARKET SERVICE
+// =====================================================
 
-const MARKET_API_URL = "http://localhost:8787";
+// -----------------------------------------------------
+// MARKET API URL
+// -----------------------------------------------------
+// Local development:
+// MARKET_API_URL=http://localhost:8787
+//
+// Production / Render:
+// MARKET_API_URL=https://your-market-api-url.onrender.com
+//
+// Keep the actual URL inside environment variables.
+// Do NOT hard-code localhost for production.
+// -----------------------------------------------------
 
-// ------------------------------------------
-// Stock Symbol Mapping
-// ------------------------------------------
+const MARKET_API_URL =
+  process.env.MARKET_API_URL;
+
+
+// -----------------------------------------------------
+// Validate Market API Configuration
+// -----------------------------------------------------
+
+if (!MARKET_API_URL) {
+  console.warn(
+    "WARNING: MARKET_API_URL environment variable is not configured."
+  );
+}
+
+
+// =====================================================
+// STOCK SYMBOL MAPPING
+// =====================================================
 
 // Some stock names contain spaces,
 // but NSE ticker symbols do not.
@@ -20,106 +49,299 @@ const SYMBOL_MAP = {
 };
 
 
-// ------------------------------------------
-// Normalize Stock Symbol
-// ------------------------------------------
+// =====================================================
+// NORMALIZE STOCK SYMBOL
+// =====================================================
 
 const normalizeStockSymbol = (symbol) => {
+
   if (!symbol) {
-    throw new Error("Stock symbol is required");
+    throw new Error(
+      "Stock symbol is required"
+    );
   }
 
-  const cleanSymbol = String(symbol)
-    .trim()
-    .toUpperCase();
 
-  // Check if stock name has a specific mapping
+  const cleanSymbol =
+    String(symbol)
+      .trim()
+      .toUpperCase();
+
+
+  // Check if stock name has
+  // a specific mapping
+
   if (SYMBOL_MAP[cleanSymbol]) {
     return SYMBOL_MAP[cleanSymbol];
   }
 
-  // For normal symbols:
+
+  // Normal symbols:
+  //
   // RELIANCE -> RELIANCE
   // TCS      -> TCS
   // INFY     -> INFY
   //
   // Also handles:
-  // "HDFC  BANK" -> "HDFCBANK"
-  return cleanSymbol.replace(/\s+/g, "");
+  //
+  // HDFC  BANK -> HDFCBANK
+
+  return cleanSymbol.replace(
+    /\s+/g,
+    ""
+  );
 };
 
 
-// ------------------------------------------
-// Get Stock Quote
-// ------------------------------------------
+// =====================================================
+// GET STOCK QUOTE
+// =====================================================
 
 const getStockQuote = async (symbol) => {
+
+  // ---------------------------------------------------
+  // Check API configuration
+  // ---------------------------------------------------
+
+  if (!MARKET_API_URL) {
+
+    throw new Error(
+      "Market API URL is not configured"
+    );
+
+  }
+
+
+  // ---------------------------------------------------
+  // Normalize symbol
+  // ---------------------------------------------------
+
   const normalizedSymbol =
     normalizeStockSymbol(symbol);
 
-  const ticker = `${normalizedSymbol}.NS`;
+
+  // ---------------------------------------------------
+  // Create NSE ticker
+  // ---------------------------------------------------
+
+  const ticker =
+    `${normalizedSymbol}.NS`;
+
 
   console.log(
     `Fetching market data for: ${ticker}`
   );
 
-  const response = await fetch(
-    `${MARKET_API_URL}/stock?symbol=${ticker}&res=num`
+
+  // ---------------------------------------------------
+  // Build API URL
+  // ---------------------------------------------------
+
+  const url =
+    `${MARKET_API_URL}/stock?symbol=${encodeURIComponent(
+      ticker
+    )}&res=num`;
+
+
+  console.log(
+    `Market API request: ${url}`
   );
 
-  const data = await response.json();
 
-  if (!response.ok || data.status !== "success") {
+  // ---------------------------------------------------
+  // Fetch market data
+  // ---------------------------------------------------
+
+  let response;
+
+  try {
+
+    response = await fetch(url);
+
+  } catch (error) {
+
+    console.error(
+      "Market API connection failed:",
+      error
+    );
+
+    throw new Error(
+      `Unable to connect to market API: ${
+        error.message
+      }`
+    );
+
+  }
+
+
+  // ---------------------------------------------------
+  // Parse response
+  // ---------------------------------------------------
+
+  let data;
+
+  try {
+
+    data = await response.json();
+
+  } catch (error) {
+
+    console.error(
+      "Invalid market API response:",
+      error
+    );
+
+    throw new Error(
+      "Market API returned an invalid response"
+    );
+
+  }
+
+
+  // ---------------------------------------------------
+  // Validate response
+  // ---------------------------------------------------
+
+  if (
+    !response.ok ||
+    data.status !== "success"
+  ) {
+
     throw new Error(
       data.message ||
-        "Failed to fetch market data"
+      "Failed to fetch market data"
     );
+
   }
+
+
+  // ---------------------------------------------------
+  // Return stock data
+  // ---------------------------------------------------
 
   return data.data;
 };
 
 
-// ------------------------------------------
-// Search Stocks
-// ------------------------------------------
+// =====================================================
+// SEARCH STOCKS
+// =====================================================
 
 const searchStocks = async (query) => {
-  const cleanQuery = String(query || "").trim();
+
+  // ---------------------------------------------------
+  // Check API configuration
+  // ---------------------------------------------------
+
+  if (!MARKET_API_URL) {
+
+    throw new Error(
+      "Market API URL is not configured"
+    );
+
+  }
+
+
+  // ---------------------------------------------------
+  // Clean search query
+  // ---------------------------------------------------
+
+  const cleanQuery =
+    String(query || "")
+      .trim();
+
 
   if (!cleanQuery) {
     return [];
   }
 
-  const response = await fetch(
+
+  // ---------------------------------------------------
+  // Build search URL
+  // ---------------------------------------------------
+
+  const url =
     `${MARKET_API_URL}/search?q=${encodeURIComponent(
       cleanQuery
-    )}`
-  );
+    )}`;
 
-  const data = await response.json();
+
+  // ---------------------------------------------------
+  // Fetch search results
+  // ---------------------------------------------------
+
+  let response;
+
+  try {
+
+    response = await fetch(url);
+
+  } catch (error) {
+
+    console.error(
+      "Market search API connection failed:",
+      error
+    );
+
+    throw new Error(
+      `Unable to connect to market API: ${
+        error.message
+      }`
+    );
+
+  }
+
+
+  // ---------------------------------------------------
+  // Parse response
+  // ---------------------------------------------------
+
+  let data;
+
+  try {
+
+    data = await response.json();
+
+  } catch (error) {
+
+    console.error(
+      "Invalid market search API response:",
+      error
+    );
+
+    throw new Error(
+      "Market API returned an invalid response"
+    );
+
+  }
+
 
   console.log(
     "RAW SEARCH API RESPONSE:",
     data
   );
 
-  if (!response.ok || data.status !== "success") {
+
+  // ---------------------------------------------------
+  // Validate response
+  // ---------------------------------------------------
+
+  if (
+    !response.ok ||
+    data.status !== "success"
+  ) {
+
     throw new Error(
       data.message ||
-        "Failed to search stocks"
+      "Failed to search stocks"
     );
+
   }
 
-  // Actual API structure:
-  //
-  // data
-  //  ├── status
-  //  ├── query
-  //  ├── total_results
-  //  └── results[]
-  //
-  // So we return data.results
+
+  // ---------------------------------------------------
+  // Return search results
+  // ---------------------------------------------------
 
   return Array.isArray(data.results)
     ? data.results
@@ -127,12 +349,11 @@ const searchStocks = async (query) => {
 };
 
 
-// ------------------------------------------
-// Export
-// ------------------------------------------
+// =====================================================
+// EXPORT
+// =====================================================
 
 module.exports = {
   getStockQuote,
   searchStocks,
 };
-
