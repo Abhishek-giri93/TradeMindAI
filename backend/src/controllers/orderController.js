@@ -98,7 +98,7 @@ const placeBuyOrder = (req, res) => {
   // ---------------------------------------------------
 
   const userId =
-    req.user?.id;
+    req.user?.userId;
 
 
   if (!userId) {
@@ -190,7 +190,7 @@ const placeSellOrder = (req, res) => {
   // ---------------------------------------------------
 
   const userId =
-    req.user?.id;
+    req.user?.userId;
 
 
   if (!userId) {
@@ -282,7 +282,7 @@ const getOrders = (req, res) => {
   // ---------------------------------------------------
 
   const userId =
-    req.user?.id;
+    req.user?.userId;
 
 
   if (!userId) {
@@ -357,7 +357,7 @@ const cancelOrder = (req, res) => {
   // ---------------------------------------------------
 
   const userId =
-    req.user?.id;
+    req.user?.userId;
 
 
   if (!userId) {
