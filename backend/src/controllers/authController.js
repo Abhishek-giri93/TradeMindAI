@@ -11,25 +11,22 @@ const registerUser = async (req, res) => {
   const email = req.body.email?.trim().toLowerCase();
   const password = req.body.password;
 
-  // validationn
-
-  // formating a email using regex-
-
-  // password reges-
-
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     db.beginTransaction((err) => {
       if (err) {
-        console.log("Some error occurred!!", err);
+        console.error("Transaction start error:", err);
 
         return res.status(500).json({
           message: "Something went wrong!!",
         });
       }
 
-      // Insert user-
+      // --------------------------------------------------------
+      // Insert user
+      // --------------------------------------------------------
+
       const userQuery = `
         INSERT INTO users (name, email, password)
         VALUES (?, ?, ?)
@@ -47,7 +44,7 @@ const registerUser = async (req, res) => {
                 });
               }
 
-              console.log("Something went wrong", err);
+              console.error("User creation error:", err);
 
               return res.status(500).json({
                 message: "Something went wrong",
@@ -55,40 +52,46 @@ const registerUser = async (req, res) => {
             });
           }
 
-          const user_id = userResult.insertId;
+          const userId = userResult.insertId;
 
-          // Creating trading account-
+          // ----------------------------------------------------
+          // Create trading account
+          // ----------------------------------------------------
+
           const accountQuery = `
             INSERT INTO accounts (user_id, balance)
             VALUES (?, ?)
           `;
 
-          db.query(accountQuery, [user_id, 0], (err) => {
+          db.query(accountQuery, [userId, 0], (err) => {
             if (err) {
               return db.rollback(() => {
-                console.error("Account creation error", err);
+                console.error("Account creation error:", err);
 
-                res.status(500).json({
+                return res.status(500).json({
                   message: "Account creation failed",
                 });
               });
             }
 
-            // Everything is successful then-
+            // --------------------------------------------------
+            // Commit transaction
+            // --------------------------------------------------
+
             db.commit((err) => {
               if (err) {
                 return db.rollback(() => {
-                  console.log("Error while committing!!", err);
+                  console.error("Transaction commit error:", err);
 
-                  res.status(500).json({
+                  return res.status(500).json({
                     message: "Registration failed!!",
                   });
                 });
               }
 
-              res.status(200).json({
+              return res.status(201).json({
                 message: "Registration successfully completed.",
-                userId: user_id,
+                userId,
               });
             });
           });
@@ -96,9 +99,9 @@ const registerUser = async (req, res) => {
       );
     });
   } catch (err) {
-    console.log("Something went wrong", err);
+    console.error("Registration error:", err);
 
-    res.status(500).json({
+    return res.status(500).json({
       message: "Something went wrong!!",
     });
   }
@@ -109,9 +112,9 @@ const registerUser = async (req, res) => {
 // ============================================================
 
 const loginUser = (req, res) => {
-  const { email, password } = req.body;
+  const email = req.body.email?.trim().toLowerCase();
+  const password = req.body.password;
 
-  // Error handling-
   try {
     const query = `
       SELECT id, name, email, password
@@ -121,15 +124,16 @@ const loginUser = (req, res) => {
 
     db.query(query, [email], async (err, results) => {
       if (err) {
-        console.log(
-          "Some error occurred while data searching!!",
-          err
-        );
+        console.error("Login database error:", err);
 
-        return res.status(501).json({
-          message: "Some error occurred while data searching!!",
+        return res.status(500).json({
+          message: "Something went wrong while logging in.",
         });
       }
+
+      // --------------------------------------------------------
+      // User not found
+      // --------------------------------------------------------
 
       if (results.length === 0) {
         return res.status(401).json({
@@ -139,7 +143,10 @@ const loginUser = (req, res) => {
 
       const user = results[0];
 
-      // Compare password-
+      // --------------------------------------------------------
+      // Verify password
+      // --------------------------------------------------------
+
       const isCorrectPassword = await bcrypt.compare(
         password,
         user.password
@@ -151,9 +158,9 @@ const loginUser = (req, res) => {
         });
       }
 
-      // ========================================================
-      // CREATE JWT TOKEN
-      // ========================================================
+      // --------------------------------------------------------
+      // Create JWT
+      // --------------------------------------------------------
 
       const token = jwt.sign(
         {
@@ -165,36 +172,22 @@ const loginUser = (req, res) => {
         }
       );
 
-      // ========================================================
-      // STORE JWT TOKEN IN HTTP-ONLY COOKIE
-      // ========================================================
-
-      res.cookie("accessToken", token, {
-        httpOnly: true,
-
-        // Production application is running on HTTPS
-        secure: true,
-
-        // Frontend and backend are on different sites
-        sameSite: "none",
-
-        // Cookie expires after 1 hour
-        maxAge: 60 * 60 * 1000,
-      });
-
-      // ========================================================
-      // LOGIN SUCCESSFUL
-      // ========================================================
+      // --------------------------------------------------------
+      // Login successful
+      // --------------------------------------------------------
+      // For now, we are returning the token directly.
+      // Later we can move back to HTTP-only cookies.
 
       return res.status(200).json({
         message: "Logged in successfully",
         userId: user.id,
         name: user.name,
         email: user.email,
+        token,
       });
     });
   } catch (err) {
-    console.log("Login error", err);
+    console.error("Login error:", err);
 
     return res.status(500).json({
       message: "Login failed!!",
@@ -218,10 +211,7 @@ const getCurrentUser = async (req, res) => {
 
     db.query(query, [userId], (err, results) => {
       if (err) {
-        console.log(
-          "Error while fetching current user:",
-          err
-        );
+        console.error("Error while fetching current user:", err);
 
         return res.status(500).json({
           message: "Failed to fetch user.",
@@ -229,8 +219,6 @@ const getCurrentUser = async (req, res) => {
       }
 
       if (results.length === 0) {
-        console.log("User not found.");
-
         return res.status(404).json({
           message: "User not found.",
         });
@@ -241,7 +229,7 @@ const getCurrentUser = async (req, res) => {
       });
     });
   } catch (error) {
-    console.log("Get current user error:", error);
+    console.error("Get current user error:", error);
 
     return res.status(500).json({
       message: "Something went wrong",
@@ -254,11 +242,7 @@ const getCurrentUser = async (req, res) => {
 // ============================================================
 
 const logoutUser = (req, res) => {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-  });
+  // Token will be removed from localStorage on frontend.
 
   return res.status(200).json({
     message: "Logged out successfully.",
