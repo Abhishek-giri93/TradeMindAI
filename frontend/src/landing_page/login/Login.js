@@ -33,8 +33,8 @@ function Login() {
       console.log("Login successfully.", data);
 
       // Redirect to homepage after successful login
-      window.location.href = "/";
-    } catch (error) {
+      window.location.href = "https://trade-mind-dashboard.vercel.app/";
+        } catch (error) {
       console.error("Login error:", error.message);
       setError(error.message || "Login failed. Please try again.");
     } finally {
