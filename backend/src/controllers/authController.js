@@ -173,17 +173,27 @@ const loginUser = (req, res) => {
       );
 
       // --------------------------------------------------------
+      // Store JWT in HttpOnly Cookie
+      // --------------------------------------------------------
+      // The JWT is NOT returned to the frontend.
+      // Browser stores it securely in an HttpOnly cookie.
+
+      res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 60 * 60 * 1000,
+      });
+
+      // --------------------------------------------------------
       // Login successful
       // --------------------------------------------------------
-      // For now, we are returning the token directly.
-      // Later we can move back to HTTP-only cookies.
 
       return res.status(200).json({
         message: "Logged in successfully",
         userId: user.id,
         name: user.name,
         email: user.email,
-        token,
       });
     });
   } catch (err) {
@@ -211,18 +221,29 @@ const getCurrentUser = async (req, res) => {
 
     db.query(query, [userId], (err, results) => {
       if (err) {
-        console.error("Error while fetching current user:", err);
+        console.error(
+          "Error while fetching current user:",
+          err
+        );
 
         return res.status(500).json({
           message: "Failed to fetch user.",
         });
       }
 
+      // --------------------------------------------------------
+      // User not found
+      // --------------------------------------------------------
+
       if (results.length === 0) {
         return res.status(404).json({
           message: "User not found.",
         });
       }
+
+      // --------------------------------------------------------
+      // Return current user
+      // --------------------------------------------------------
 
       return res.status(200).json({
         user: results[0],
@@ -242,7 +263,19 @@ const getCurrentUser = async (req, res) => {
 // ============================================================
 
 const logoutUser = (req, res) => {
-  // Token will be removed from localStorage on frontend.
+  // --------------------------------------------------------
+  // Clear HttpOnly authentication cookie
+  // --------------------------------------------------------
+
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+
+  // --------------------------------------------------------
+  // Logout successful
+  // --------------------------------------------------------
 
   return res.status(200).json({
     message: "Logged out successfully.",

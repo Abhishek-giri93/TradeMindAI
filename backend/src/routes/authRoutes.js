@@ -1,31 +1,75 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const router = express.Router();     // --------- Router keeps the same route at one place baby
-const db = require('../config/db');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+
+const router = express.Router();
+
+// Authentication middleware
 const authMiddleware = require("../middleware/authMiddleware");
-const { registerUser,
+
+// Controllers
+const {
+  registerUser,
   loginUser,
   getCurrentUser,
   logoutUser
 } = require("../controllers/authController");
 
+// Validation middleware
 const validate = require("../middleware/validationMiddleware");
-const { registerSchema , loginSchema} = require("../validators/authValidators");
+
+// Validation schemas
+const {
+  registerSchema,
+  loginSchema
+} = require("../validators/authValidators");
+
+// ============================================================
+// TEST PROTECTED ROUTE
+// ============================================================
 
 router.get("/protected", authMiddleware, (req, res) => {
   return res.status(200).json({
     message: "Protected route tested successfully.",
     user: req.user
-  })
-})
+  });
+});
 
-router.post('/register', validate(registerSchema), registerUser);
+// ============================================================
+// REGISTER
+// ============================================================
 
-router.post("/login",validate(loginSchema), loginUser);
+router.post(
+  "/register",
+  validate(registerSchema),
+  registerUser
+);
 
-router.get("/me", authMiddleware, getCurrentUser);
+// ============================================================
+// LOGIN
+// ============================================================
 
-router.post("/logout", logoutUser);
+router.post(
+  "/login",
+  validate(loginSchema),
+  loginUser
+);
+
+// ============================================================
+// GET CURRENT USER
+// ============================================================
+
+router.get(
+  "/me",
+  authMiddleware,
+  getCurrentUser
+);
+
+// ============================================================
+// LOGOUT
+// ============================================================
+
+router.post(
+  "/logout",
+  logoutUser
+);
 
 module.exports = router;

@@ -18,76 +18,52 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Clear previous error
     setError("");
-
+  
     // Basic validation
     const trimmedEmail = email.trim();
-
+  
     if (!trimmedEmail || !password) {
       setError("Email and password are required.");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
-      // Remove any old token before starting a fresh login
-      localStorage.removeItem("token");
-
       // --------------------------------------------------------
       // LOGIN API
       // --------------------------------------------------------
-
+      // Backend authenticates the user and sets the JWT as a
+      // secure HttpOnly cookie.
+      //
+      // We DO NOT read or store the JWT in localStorage.
+      // --------------------------------------------------------
+  
       const data = await loginUser({
         email: trimmedEmail,
         password,
       });
-
+  
       console.log("Login successful:", data);
-
-      // --------------------------------------------------------
-      // CHECK JWT TOKEN
-      // --------------------------------------------------------
-
-      if (!data?.token) {
-        console.error("Login response does not contain a token.");
-
-        throw new Error(
-          "Login successful, but authentication token was not received."
-        );
-      }
-
-      // --------------------------------------------------------
-      // SAVE JWT TOKEN
-      // --------------------------------------------------------
-
-      localStorage.setItem("token", data.token);
-
-      console.log("Authentication token saved successfully.");
-
-      // --------------------------------------------------------
-      // VERIFY TOKEN WAS SAVED
-      // --------------------------------------------------------
-
-      const savedToken = localStorage.getItem("token");
-
-      if (!savedToken) {
-        throw new Error(
-          "Authentication token could not be saved. Please try again."
-        );
-      }
-
+  
       // --------------------------------------------------------
       // REDIRECT TO DASHBOARD
       // --------------------------------------------------------
-
+      // The browser will automatically handle the HttpOnly
+      // accessToken cookie when API requests use:
+      //
+      // credentials: "include"
+      // --------------------------------------------------------
+  
       window.location.href =
         "https://trade-mind-dashboard.vercel.app/";
+  
     } catch (error) {
       console.error("Login error:", error);
-
+  
       setError(
         error?.message || "Login failed. Please try again."
       );
@@ -95,7 +71,6 @@ function Login() {
       setLoading(false);
     }
   };
-
   return (
     <>
       <Navbar />
